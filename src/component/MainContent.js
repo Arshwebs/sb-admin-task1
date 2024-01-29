@@ -1,8 +1,19 @@
 import React from "react";
 import CommonCard from "./cards/CommonCard";
 import ProgressCard from "./cards/ProgressCard";
+import Table from "react-bootstrap/Table";
+import {useNavigate} from "react-router-dom";
+import Button from "react-bootstrap/Button";
+function MainContent({data, users, setStudents}) {
+	let navigate = useNavigate();
 
-function MainContent({data}) {
+	console.log(users, data);
+	function handleDelete(i) {
+		let deleteUsers = [...users];
+		deleteUsers.splice(i, 1);
+		setStudents(deleteUsers);
+	}
+
 	return (
 		<div id="content-wrapper" className="d-flex flex-column">
 			{/* <!-- Main Content --> */}
@@ -50,6 +61,42 @@ function MainContent({data}) {
 							textColor="text-warning"
 						/>
 					</div>
+					<Table striped bordered hover>
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Mobile</th>
+								<th>Batch</th>
+								<th>Timing</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{users.map((e, i) => {
+								return (
+									<tr key={i}>
+										<td>{i + 1}</td>
+										<td>{e.name}</td>
+										<td>{e.email}</td>
+										<td>{e.mobile}</td>
+										<td>{e.batch}</td>
+										<td>{e.timing}</td>
+										<td>
+											<Button variant="primary" onClick={() => navigate(`/edituser/${i}`)}>
+												Edit
+											</Button>
+											&nbsp; &nbsp;
+											<Button variant="warning" onClick={() => handleDelete(i)}>
+												Delete
+											</Button>
+										</td>
+									</tr>
+								);
+							})}
+						</tbody>
+					</Table>
 				</div>
 				{/* <!-- /.container-fluid --> */}
 			</div>

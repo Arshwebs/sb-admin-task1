@@ -55,7 +55,7 @@ function Sidebar() {
 				</Link>
 
 				{/* <!-- Nav Item - Utilities Collapse Menu --> */}
-				<Link to="/edituser">
+				<Link to="/edituser/0">
 					<li className="nav-item">
 						<div
 							className="nav-link collapsed"
