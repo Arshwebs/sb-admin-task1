@@ -1,19 +1,24 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import {useNavigate} from "react-router-dom";
-function AddUser({users, setUsers}) {
+import {userContext} from "./ContextComponent/UsersContextComponent";
+
+function AddUser() {
 	let [name, setName] = useState();
 	let [mobile, setMobile] = useState();
 	let [email, setEmail] = useState();
 	let [batch, setBatch] = useState();
 	let [timing, setTiming] = useState();
 	let navigate = useNavigate();
+	let context = useContext(userContext);
+
 	function handleSubmit() {
-		let newArr = [...users];
+		let newArr = [...context.users];
 		let newData = {name, mobile, email, batch, timing};
 		newArr.push(newData);
-		setUsers(newArr);
+		context.setUsers(newArr);
+		console.log(newArr);
 		navigate("/dashboard");
 	}
 

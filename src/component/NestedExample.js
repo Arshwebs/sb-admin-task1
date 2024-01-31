@@ -11,6 +11,12 @@ function NestedExample() {
 				<Link to="account">
 					<li>Account</li>
 				</Link>
+				<Link to="useRef">
+					<li>useRef</li>
+				</Link>
+				<Link to="useReducer">
+					<li>useReducer</li>
+				</Link>
 				<Link to="/nestedexample">
 					<li>NestedExample</li>
 				</Link>

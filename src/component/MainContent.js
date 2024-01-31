@@ -1,17 +1,21 @@
-import React from "react";
+import React, {useContext} from "react";
 import CommonCard from "./cards/CommonCard";
 import ProgressCard from "./cards/ProgressCard";
 import Table from "react-bootstrap/Table";
 import {useNavigate} from "react-router-dom";
 import Button from "react-bootstrap/Button";
-function MainContent({data, users, setStudents}) {
-	let navigate = useNavigate();
+import {dashboardContext} from "./ContextComponent/DashboardContextComponent";
+import {userContext} from "./ContextComponent/UsersContextComponent";
 
-	console.log(users, data);
+function MainContent() {
+	let navigate = useNavigate();
+	let context = useContext(userContext);
+	let dashContext = useContext(dashboardContext);
+
 	function handleDelete(i) {
-		let deleteUsers = [...users];
+		let deleteUsers = [...context.users];
 		deleteUsers.splice(i, 1);
-		setStudents(deleteUsers);
+		context.setUsers(deleteUsers);
 	}
 
 	return (
@@ -35,28 +39,28 @@ function MainContent({data, users, setStudents}) {
 						<CommonCard
 							label="Earnings (Monthly)"
 							border="border-left-primary"
-							value={`${data.earningsMonthly}`}
+							value={`${dashContext.data.earningsMonthly}`}
 							icon="fa-calendar"
 							textColor="text-primary"
 						/>
 						<CommonCard
 							label="Earnings (Annual)"
 							border="border-left-success"
-							value={`${data.earningsAnnual}`}
+							value={`${dashContext.data.earningsAnnual}`}
 							icon="fa-dollar-sign"
 							textColor="text-success"
 						/>
 						<ProgressCard
 							label="Tasks"
 							border="border-left-info"
-							percentage={`${data.tasks}`}
+							percentage={`${dashContext.data.tasks}`}
 							icon="fa-clipboard-list"
 							textColor="text-info"
 						/>
 						<CommonCard
 							label="Pending Requests"
 							border="card border-left-warning "
-							value={`${data.pendingRequests}`}
+							value={`${dashContext.data.pendingRequests}`}
 							icon="fa-comments"
 							textColor="text-warning"
 						/>
@@ -74,7 +78,7 @@ function MainContent({data, users, setStudents}) {
 							</tr>
 						</thead>
 						<tbody>
-							{users.map((e, i) => {
+							{context.users.map((e, i) => {
 								return (
 									<tr key={i}>
 										<td>{i + 1}</td>
