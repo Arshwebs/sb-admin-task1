@@ -27,28 +27,28 @@ function UsersContextComponent({children}) {
 	const [state, dispatch] = useReducer(userReducer, intialValue);
 	let [users, setUsers] = useState([
 		{
-			name: "Arsath",
+			name: "John",
 			email: "a@gmail.com",
 			mobile: "24325436527",
 			batch: "b28Wet",
 			timing: "11am to 1pm",
 		},
 		{
-			name: "Mubeena",
+			name: "Leo",
 			email: "b@gmail.com",
 			mobile: "78675875436527",
 			batch: "b28Wet",
 			timing: "11am to 1pm",
 		},
 		{
-			name: "e",
+			name: "Abu",
 			email: "w@gmail.com",
 			mobile: "24325436527",
 			batch: "b28Wet",
 			timing: "11am to 1pm",
 		},
 		{
-			name: "r",
+			name: "Hendry",
 			email: "rt@gmail.com",
 			mobile: "24325436527",
 			batch: "b28Wet",
