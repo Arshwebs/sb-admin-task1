@@ -1,27 +1,25 @@
 import {useParams} from "react-router-dom";
-import React, {useState, useEffect, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import {useNavigate} from "react-router-dom";
 import {userContext} from "../component/ContextComponent/UsersContextComponent";
+import {ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function EditUser() {
-	let [name, setName] = useState();
-	let [mobile, setMobile] = useState();
-	let [email, setEmail] = useState();
-	let [batch, setBatch] = useState();
-	let [timing, setTiming] = useState();
 	let navigate = useNavigate();
 	let {id} = useParams();
 	let context = useContext(userContext);
+	const notify = () => toast("User edited successfully!");
 
 	useEffect(() => {
 		if (id) {
-			setName(context.users[id].name);
-			setMobile(context.users[id].mobile);
-			setEmail(context.users[id].email);
-			setBatch(context.users[id].batch);
-			setTiming(context.users[id].timing);
+			context.dispatch({type: "name", value: context.users[id].name});
+			context.dispatch({type: "email", value: context.users[id].email});
+			context.dispatch({type: "mobile", value: context.users[id].mobile});
+			context.dispatch({type: "batch", value: context.users[id].batch});
+			context.dispatch({type: "timing", value: context.users[id].timing});
 		}
 	}, []);
 
@@ -30,23 +28,30 @@ function EditUser() {
 
 	function handleSubmit() {
 		let newArr = [...context.users];
-		let newData = {name, mobile, email, batch, timing};
+		let newData = {...context.state};
 
 		newArr.splice(id, 1, newData);
 		context.setUsers(newArr);
-		navigate("/dashboard");
+		context.dispatch({type: "reset"});
+		notify();
+
+		setTimeout(() => navigate("/dashboard"), 5000);
 	}
 	return (
 		<div className="container-fluid">
-			<h1>EditUser {id}</h1>
-			<Form>
+			<br />
+			<div className="d-sm-flex align-items-center justify-content-between mb-2 mt-2">
+				<h1 className="h4 mb-0 text-gray-800">Edit User: {+id + 1}</h1>
+			</div>
+			<br />
+			<Form className="container-fluid">
 				<Form.Group className="mb-3">
 					<Form.Label>Name</Form.Label>
 					<Form.Control
 						type="text"
 						placeholder="Enter email"
-						value={name}
-						onChange={e => setName(e.target.value)}
+						value={context.state.name}
+						onChange={e => context.dispatch({type: "name", value: e.target.value})}
 					/>
 				</Form.Group>
 
@@ -54,34 +59,35 @@ function EditUser() {
 					<Form.Label>Email</Form.Label>
 					<Form.Control
 						type="email"
-						value={email}
+						value={context.state.email}
 						placeholder="Email"
-						onChange={e => setEmail(e.target.value)}
+						onChange={e => context.dispatch({type: "email", value: e.target.value})}
 					/>
 				</Form.Group>
 				<Form.Group className="mb-3">
 					<Form.Label>Mobile</Form.Label>
 					<Form.Control
 						type="text"
-						value={mobile}
+						value={context.state.mobile}
 						placeholder="Mobile"
-						onChange={e => setMobile(e.target.value)}
+						onChange={e => context.dispatch({type: "mobile", value: e.target.value})}
 					/>
 				</Form.Group>
 				<Form.Group className="mb-3">
 					<Form.Label>Batch</Form.Label>
 					<Form.Control
 						type="Text"
-						value={batch}
+						value={context.state.batch}
 						placeholder="Batch"
-						onChange={e => setBatch(e.target.value)}
+						onChange={e => context.dispatch({type: "batch", value: e.target.value})}
 					/>
 				</Form.Group>
+				<Form.Label>Timing</Form.Label>
 				<Form.Select
 					aria-label="Default select example"
 					defaultValue={"0"}
-					value={timing}
-					onChange={e => setTiming(e.target.value)}
+					value={context.state.timing}
+					onChange={e => context.dispatch({type: "timing", value: e.target.value})}
 				>
 					<option value={"0"} disabled>
 						Session Timings
@@ -90,11 +96,13 @@ function EditUser() {
 					<option value="2pm to 4pm">2pm to 4pm</option>
 					<option value="6pm to 8pm">6pm to 8pm</option>
 				</Form.Select>
+				<br />
 
 				<Button variant="primary" onClick={() => handleSubmit()}>
 					Submit
 				</Button>
 			</Form>
+			<ToastContainer />
 		</div>
 	);
 }

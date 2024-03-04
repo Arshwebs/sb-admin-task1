@@ -1,8 +1,30 @@
-import React, {useState} from "react";
+import React, {useState, useReducer} from "react";
 
-export let userContext = React.createContext();
+export const userContext = React.createContext();
+
+const intialValue = {name: "", mobile: "", email: "", batch: "", timing: ""};
+
+const userReducer = (state, action) => {
+	switch (action.type) {
+		case "name":
+			return {...state, name: action.value};
+		case "mobile":
+			return {...state, mobile: action.value};
+		case "email":
+			return {...state, email: action.value};
+		case "batch":
+			return {...state, batch: action.value};
+		case "timing":
+			return {...state, timing: action.value};
+		case "reset":
+			return (state = intialValue);
+		default:
+			throw new Error("Error( file: userContextComponent): UserReducer Failed");
+	}
+};
 
 function UsersContextComponent({children}) {
+	const [state, dispatch] = useReducer(userReducer, intialValue);
 	let [users, setUsers] = useState([
 		{
 			name: "Arsath",
@@ -34,7 +56,9 @@ function UsersContextComponent({children}) {
 		},
 	]);
 
-	return <userContext.Provider value={{users, setUsers}}>{children}</userContext.Provider>;
+	return (
+		<userContext.Provider value={{users, setUsers, state, dispatch}}>{children}</userContext.Provider>
+	);
 }
 
 export default UsersContextComponent;

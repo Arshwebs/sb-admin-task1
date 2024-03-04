@@ -4,13 +4,7 @@ import Sidebar from "./component/Sidebar";
 import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import AddUser from "./component/AddUser";
 import EditUser from "./component/EditUser";
-import NestedExample from "./component/NestedExample";
-import Profile from "./component/nested components/Profile";
-import Account from "./component/nested components/Account";
-import React, {useState} from "react";
-import UseReducer from "./component/nested components/UseReducer";
-import UseRef from "./component/nested components/UseRef";
-
+import Profile from "./component/Profile";
 import UsersContextComponent from "./component/ContextComponent/UsersContextComponent";
 import DashboardContextComponent from "./component/ContextComponent/DashboardContextComponent";
 
@@ -19,42 +13,23 @@ function App() {
 		<div id="wrapper">
 			<BrowserRouter>
 				<Sidebar />
-
-				<Routes>
-					<Route
-						path="/dashboard"
-						element={
-							<DashboardContextComponent>
-								<UsersContextComponent>
+				<UsersContextComponent>
+					<Routes>
+						<Route
+							path="/users"
+							element={
+								<DashboardContextComponent>
 									<MainContent />
-								</UsersContextComponent>
-							</DashboardContextComponent>
-						}
-					/>
-					<Route
-						path="/adduser"
-						element={
-							<UsersContextComponent>
-								<AddUser />
-							</UsersContextComponent>
-						}
-					/>
-					<Route
-						path="/edituser/:id"
-						element={
-							<UsersContextComponent>
-								<EditUser />
-							</UsersContextComponent>
-						}
-					/>
-					<Route path="/nestedexample" element={<NestedExample />}>
-						<Route path="profile" element={<Profile />} />
-						<Route path="account" element={<Account />} />
-						<Route path="useRef" element={<UseRef />} />
-						<Route path="useReducer" element={<UseReducer />} />
-					</Route>
-					<Route path="*" element={<Navigate to={"/dashboard"} />} />
-				</Routes>
+								</DashboardContextComponent>
+							}
+						/>
+						<Route path="/create-user" element={<AddUser />} />
+						<Route path="/edit-user/:id" element={<EditUser />} />
+						<Route path="/profile/:id" element={<Profile />} />
+
+						<Route path="*" element={<Navigate to={"/users"} />} />
+					</Routes>
+				</UsersContextComponent>
 			</BrowserRouter>
 		</div>
 	);

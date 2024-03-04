@@ -1,16 +1,14 @@
 import React, {useContext} from "react";
-import CommonCard from "./cards/CommonCard";
-import ProgressCard from "./cards/ProgressCard";
+
 import Table from "react-bootstrap/Table";
 import {useNavigate} from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import {dashboardContext} from "./ContextComponent/DashboardContextComponent";
+
 import {userContext} from "./ContextComponent/UsersContextComponent";
 
 function MainContent() {
 	let navigate = useNavigate();
 	let context = useContext(userContext);
-	let dashContext = useContext(dashboardContext);
 
 	function handleDelete(i) {
 		let deleteUsers = [...context.users];
@@ -25,46 +23,15 @@ function MainContent() {
 				{/* <!-- Begin Page Content --> */}
 				<div className="container-fluid">
 					{/* <!-- Page Heading --> */}
+					<br />
 					<div className="d-sm-flex align-items-center justify-content-between mb-4">
 						<h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
-						<a
-							href="javascript(void)"
-							className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-						>
-							<i className="fas fa-download fa-sm text-white-50"></i> Generate Report
-						</a>
 					</div>
-					{/* <!-- Content Row --> */}
-					<div className="row">
-						<CommonCard
-							label="Earnings (Monthly)"
-							border="border-left-primary"
-							value={`${dashContext.data.earningsMonthly}`}
-							icon="fa-calendar"
-							textColor="text-primary"
-						/>
-						<CommonCard
-							label="Earnings (Annual)"
-							border="border-left-success"
-							value={`${dashContext.data.earningsAnnual}`}
-							icon="fa-dollar-sign"
-							textColor="text-success"
-						/>
-						<ProgressCard
-							label="Tasks"
-							border="border-left-info"
-							percentage={`${dashContext.data.tasks}`}
-							icon="fa-clipboard-list"
-							textColor="text-info"
-						/>
-						<CommonCard
-							label="Pending Requests"
-							border="card border-left-warning "
-							value={`${dashContext.data.pendingRequests}`}
-							icon="fa-comments"
-							textColor="text-warning"
-						/>
+
+					<div className="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 className="h4 mb-0 text-gray-800">All Users:</h1>
 					</div>
+
 					<Table striped bordered hover>
 						<thead>
 							<tr>
@@ -88,7 +55,11 @@ function MainContent() {
 										<td>{e.batch}</td>
 										<td>{e.timing}</td>
 										<td>
-											<Button variant="primary" onClick={() => navigate(`/edituser/${i}`)}>
+											<Button variant="secondary" onClick={() => navigate(`/profile/${i}`)}>
+												view
+											</Button>
+											&nbsp; &nbsp;
+											<Button variant="primary" onClick={() => navigate(`/edit-user/${i}`)}>
 												Edit
 											</Button>
 											&nbsp; &nbsp;
