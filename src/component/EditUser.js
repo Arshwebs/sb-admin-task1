@@ -21,6 +21,7 @@ function EditUser() {
 			context.dispatch({type: "batch", value: context.users[id].batch});
 			context.dispatch({type: "timing", value: context.users[id].timing});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// let editData = users.splice(id, 1);

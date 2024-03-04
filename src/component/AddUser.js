@@ -25,6 +25,7 @@ function AddUser() {
 
 	useEffect(() => {
 		context.dispatch({type: "reset"});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
 		<div className="container-fluid">
