@@ -6,7 +6,6 @@ import AddUser from "./component/AddUser";
 import EditUser from "./component/EditUser";
 import Profile from "./component/Profile";
 import UsersContextComponent from "./component/ContextComponent/UsersContextComponent";
-import DashboardContextComponent from "./component/ContextComponent/DashboardContextComponent";
 
 function App() {
 	return (
@@ -15,14 +14,7 @@ function App() {
 				<Sidebar />
 				<UsersContextComponent>
 					<Routes>
-						<Route
-							path="/users"
-							element={
-								<DashboardContextComponent>
-									<MainContent />
-								</DashboardContextComponent>
-							}
-						/>
+						<Route path="/users" element={<MainContent />} />
 						<Route path="/create-user" element={<AddUser />} />
 						<Route path="/edit-user/:id" element={<EditUser />} />
 						<Route path="/profile/:id" element={<Profile />} />

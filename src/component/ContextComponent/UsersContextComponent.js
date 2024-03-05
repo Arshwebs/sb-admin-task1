@@ -31,28 +31,28 @@ function UsersContextComponent({children}) {
 			email: "a@gmail.com",
 			mobile: "24325436527",
 			batch: "b28Wet",
-			timing: "11am to 1pm",
+			timing: "10am to 1pm",
 		},
 		{
 			name: "Leo",
 			email: "b@gmail.com",
 			mobile: "78675875436527",
 			batch: "b28Wet",
-			timing: "11am to 1pm",
+			timing: "10am to 1pm",
 		},
 		{
 			name: "Abu",
 			email: "w@gmail.com",
 			mobile: "24325436527",
 			batch: "b28Wet",
-			timing: "11am to 1pm",
+			timing: "10am to 1pm",
 		},
 		{
 			name: "Hendry",
 			email: "rt@gmail.com",
 			mobile: "24325436527",
 			batch: "b28Wet",
-			timing: "11am to 1pm",
+			timing: "10am to 1pm",
 		},
 	]);
 

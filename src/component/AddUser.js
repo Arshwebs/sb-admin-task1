@@ -1,20 +1,42 @@
 import React, {useContext, useEffect} from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+
 import {useNavigate} from "react-router-dom";
 import {userContext} from "./ContextComponent/UsersContextComponent";
+import {Formik, Field, Form} from "formik";
+import * as yup from "yup";
 import {ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function AddUser() {
+function AddUser_v2() {
+	let initialValues = {
+		name: "",
+		email: "",
+		mobile: "",
+		batch: "",
+		timing: "",
+	};
+
 	let navigate = useNavigate();
 	let context = useContext(userContext);
 	const notify = () => toast("User added successfully!");
 
-	function handleSubmit() {
+	const UserSchema = yup.object().shape({
+		name: yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
+		email: yup.string().email("Invalid email").required("Required"),
+		mobile: yup
+			.string()
+			.matches(/^\d{10}$/, "Invalid Mobile Number 10 digits only")
+			.required("Required"),
+		batch: yup.string().required("Required"),
+		timing: yup.string().required("Required"),
+	});
+
+	function handleSubmit(values) {
+		console.log(values);
 		let newArr = [...context.users];
-		let newData = {...context.state};
-		newArr.push(newData);
+
+		newArr.push(values);
 		context.setUsers(newArr);
 		console.log(newArr);
 
@@ -34,66 +56,56 @@ function AddUser() {
 				<h1 className="h4 mb-0 text-gray-800">Add User:</h1>
 			</div>
 			<br />
-			<Form className="container-fluid">
-				<Form.Group className="mb-3">
-					<Form.Label>Name</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Enter email"
-						value={context.state.name}
-						onChange={e => context.dispatch({type: "name", value: e.target.value})}
-					/>
-				</Form.Group>
+			<Formik
+				initialValues={initialValues}
+				validationSchema={UserSchema}
+				onSubmit={values => {
+					handleSubmit(values);
+				}}
+			>
+				{({errors, touched}) => (
+					<Form>
+						<div className="form-group">
+							<label htmlFor="name">Name</label>
+							<Field name="name" className="form-control" type="text" placeholder="Name" />
+							{errors.name && touched.name ? <div style={{color: "red"}}>{errors.name}</div> : null}
+						</div>
 
-				<Form.Group className="mb-3">
-					<Form.Label>Email</Form.Label>
-					<Form.Control
-						type="email"
-						value={context.state.email}
-						placeholder="Email"
-						onChange={e => context.dispatch({type: "email", value: e.target.value})}
-					/>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Mobile</Form.Label>
-					<Form.Control
-						type="text"
-						value={context.state.mobile}
-						placeholder="Mobile"
-						onChange={e => context.dispatch({type: "mobile", value: e.target.value})}
-					/>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Batch</Form.Label>
-					<Form.Control
-						type="Text"
-						value={context.state.batch}
-						placeholder="Batch"
-						onChange={e => context.dispatch({type: "batch", value: e.target.value})}
-					/>
-				</Form.Group>
-				<Form.Label>Timing</Form.Label>
-				<Form.Select
-					aria-label="Default select example"
-					defaultValue={"0"}
-					value={context.state.timing}
-					onChange={e => context.dispatch({type: "timing", value: e.target.value})}
-				>
-					<option value={"0"} disabled>
-						Session Timings
-					</option>
-					<option value="10am to 1pm">10am to 1pm</option>
-					<option value="2pm to 4pm">2pm to 4pm</option>
-					<option value="6pm to 8pm">6pm to 8pm</option>
-				</Form.Select>
-				<br />
-				<Button variant="primary" onClick={() => handleSubmit()}>
-					Submit
-				</Button>
-			</Form>
+						<div className="form-group">
+							<label htmlFor="email">Email</label>
+							<Field name="email" className="form-control" type="email" placeholder="Email" />
+							{errors.email && touched.email ? <div style={{color: "red"}}>{errors.email}</div> : null}
+						</div>
+						<div className="form-group">
+							<label htmlFor="mobile">Mobile</label>
+							<Field name="mobile" className="form-control" type="text" />
+							{errors.mobile && touched.mobile ? <div style={{color: "red"}}>{errors.mobile}</div> : null}
+						</div>
+						<div className="form-group">
+							<label htmlFor="batch">Batch</label>
+							<Field name="batch" className="form-control" type="text" />
+							{errors.batch && touched.batch ? <div style={{color: "red"}}>{errors.batch}</div> : null}
+						</div>
+						<div className="form-group">
+							<label htmlFor="timing">Timing</label>
+							<Field component="select" id="timing" name="timing">
+								<option value={"0"}>Session Timings</option>
+								<option value="10am to 1pm">10am to 1pm</option>
+								<option value="2pm to 4pm">2pm to 4pm</option>
+								<option value="6pm to 8pm">6pm to 8pm</option>
+							</Field>
+							{errors.timing && touched.timing ? <div style={{color: "red"}}>{errors.timing}</div> : null}
+						</div>
+						<br />
+						<Button type="submit" variant="primary">
+							Submit
+						</Button>
+					</Form>
+				)}
+			</Formik>
 			<ToastContainer />
 		</div>
 	);
 }
 
-export default AddUser;
+export default AddUser_v2;
