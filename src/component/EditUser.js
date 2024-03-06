@@ -62,7 +62,7 @@ function EditUser() {
 		<div className="container-fluid">
 			<br />
 			<div className="d-sm-flex align-items-center justify-content-between mb-2 mt-2">
-				<h1 className="h4 mb-0 text-gray-800">Add User:</h1>
+				<h1 className="h4 mb-0 text-gray-800">Edit User: {+id + 1}</h1>
 			</div>
 			<br />
 			{isValid ? (
@@ -98,7 +98,7 @@ function EditUser() {
 							</div>
 							<div className="form-group">
 								<label htmlFor="timing">Timing</label>
-								<Field component="select" id="timing" name="timing">
+								<Field component="select" id="timing" name="timing" className="form-control">
 									<option value="">Session Timings</option>
 									<option value="10am to 1pm">10am to 1pm</option>
 									<option value="2pm to 4pm">2pm to 4pm</option>
@@ -114,7 +114,7 @@ function EditUser() {
 					)}
 				</Formik>
 			) : (
-				"Loading...."
+				<p>Loading....</p>
 			)}
 			<ToastContainer />
 		</div>

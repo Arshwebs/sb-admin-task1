@@ -88,7 +88,7 @@ function AddUser_v2() {
 						</div>
 						<div className="form-group">
 							<label htmlFor="timing">Timing</label>
-							<Field component="select" id="timing" name="timing">
+							<Field component="select" id="timing" name="timing" className="form-control">
 								<option value={"0"}>Session Timings</option>
 								<option value="10am to 1pm">10am to 1pm</option>
 								<option value="2pm to 4pm">2pm to 4pm</option>
